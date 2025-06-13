@@ -188,3 +188,6 @@ tmp*/
 .user.yml
 
 postgres_data/
+
+# jupyter notebook
+**/dagster_essentials/*.ipynb
