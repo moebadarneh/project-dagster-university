@@ -191,3 +191,9 @@ postgres_data/
 
 # jupyter notebook
 **/dagster_essentials/*.ipynb
+
+# dagster
+**/dagster_essentials/history
+**/dagster_essentials/storage
+**/dagster_essentials/schedules
+**/dagster_essentials/.telemetry
