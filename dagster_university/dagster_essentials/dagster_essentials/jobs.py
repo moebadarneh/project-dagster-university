@@ -5,6 +5,7 @@ from dagster_essentials.partitions import monthly_partition, weekly_partition
 trips_by_week = dg.AssetSelection.assets("trips_by_week")
 adhoc_request = dg.AssetSelection.assets(["adhoc_request"])
 
+
 trip_update_job = dg.define_asset_job(
     name="trip_update_job",
     partitions_def=monthly_partition,  # partitions added here

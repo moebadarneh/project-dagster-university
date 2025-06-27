@@ -197,3 +197,8 @@ postgres_data/
 **/dagster_essentials/storage
 **/dagster_essentials/schedules
 **/dagster_essentials/.telemetry
+**/dagster_essentials/.dagster_home
+**dagster_essentials/.env
+**/dagster_essentials/.direnv
+**/dagster_essentials/.envrc
+

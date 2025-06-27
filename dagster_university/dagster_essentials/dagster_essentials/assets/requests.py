@@ -1,5 +1,5 @@
 import dagster as dg
-from dagster_duckdb import DuckDBResource
+from dagster_gcp import BigQueryResource
 
 import matplotlib.pyplot as plt
 
@@ -14,9 +14,9 @@ class AdhocRequestConfig(dg.Config):
 
 
 @dg.asset(
-    deps=["taxi_zones", "taxi_trips"]
+    deps=["taxi_zones", "yellow_taxi_trips"]
 )
-def adhoc_request(config: AdhocRequestConfig, database: DuckDBResource) -> None:
+def adhoc_request(config: AdhocRequestConfig, bqr: BigQueryResource) -> None:
     """
       The response to an request made in the `requests` directory.
       See `requests/README.md` for more information.
@@ -41,8 +41,8 @@ def adhoc_request(config: AdhocRequestConfig, database: DuckDBResource) -> None:
             when 6 then 'Saturday'
           end as day_of_week,
           count(*) as num_trips
-        from trips
-        left join zones on trips.pickup_zone_id = zones.zone_id
+        from yellow_trips
+        left join zones on yellow_trips.pickup_zone_id = zones.zone_id
         where pickup_datetime >= '{config.start_date}'
         and pickup_datetime < '{config.end_date}'
         and pickup_zone_id in (
@@ -54,8 +54,7 @@ def adhoc_request(config: AdhocRequestConfig, database: DuckDBResource) -> None:
         order by 1, 2 asc
     """
 
-    with database.get_connection() as conn:
-        results = conn.execute(query).fetch_df()
+    results = bqr.get_client().query(query).to_dataframe()
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
